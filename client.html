@@ -7,24 +7,20 @@
     <title>WebSocker Client</title>
 </head>
 <body>
-    <button onclick="contactServer">Click Here</button>
+    <button onclick="sendMessage();">Send Message</button>
+    <input type="text" id="message" />
     <textarea id="textArea" cols="30" rows="10"></textarea>
 </body>
 <script>
     const socket = new WebSocket('ws://localhost:8000');
-    socket.addEventListener('open', function (event) {
-        // connection is open and ready to use
-        var msg = 'Test Message: Hello WebSocket Server!!';
-        socket.send(msg);
-        document.getElementById('textArea').value = new Date().toLocaleString() + ":" + msg + "\n" + document.getElementById('textArea').value;
-    });
     socket.addEventListener('message', function (event) {
         // receive message from server
         document.getElementById('textArea').value = new Date().toLocaleString() + ":" + event.data + "\n" + document.getElementById('textArea').value;
     });
-    const contactServer = () => {
-        // initialize connection
-        socket.send("Initialize");
+    function sendMessage() {
+        var msg = document.getElementById('message').value;
+        socket.send(msg);
+        document.getElementById('textArea').value = new Date().toLocaleString() + ":" + msg + "\n" + document.getElementById('textArea').value;
     }
 </script>
 </html>
