@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocker Client</title>
+</head>
+<body>
+    <button onclick="contactServer">Click Here</button>
+    <textarea id="textArea" cols="30" rows="10"></textarea>
+</body>
+<script>
+    const socket = new WebSocket('ws://localhost:8000');
+    socket.addEventListener('open', function (event) {
+        // connection is open and ready to use
+        var msg = 'Test Message: Hello WebSocket Server!!';
+        socket.send(msg);
+        document.getElementById('textArea').value = new Date().toLocaleString() + ":" + msg + "\n" + document.getElementById('textArea').value;
+    });
+    socket.addEventListener('message', function (event) {
+        // receive message from server
+        document.getElementById('textArea').value = new Date().toLocaleString() + ":" + event.data + "\n" + document.getElementById('textArea').value;
+    });
+    const contactServer = () => {
+        // initialize connection
+        socket.send("Initialize");
+    }
+</script>
+</html>
